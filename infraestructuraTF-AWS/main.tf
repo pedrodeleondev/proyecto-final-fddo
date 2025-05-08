@@ -191,3 +191,50 @@ resource "aws_security_group" "SG-BD" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+#Instancia Linux Backend
+resource "aws_instance" "instancia_LinuxBack" {
+  ami = "ami-0f88e80871fd81e91"
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.subred_privada_virginia_Back.id
+  key_name = "vockey"
+  vpc_security_group_ids = [aws_security_group.SG-LinuxBackend.id]
+  associate_public_ip_address = false
+  tags = {
+    Name = "Linux Backend - Proyecto"
+  }
+}
+
+#Instancia Web
+resource "aws_instance" "instancia_WebVirginia" {
+  ami = "ami-0f88e80871fd81e91"
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.subred_publica_virginia_Web.id
+  key_name = "vockey"
+  vpc_security_group_ids = [aws_security_group.SG-WebVirginia.id]
+  associate_public_ip_address = true
+  tags = {
+    Name = "Linux Web - Proyecto"
+  }
+}
+
+#Base de Datos
+resource "aws_db_instance" "BD_MySQL" {
+  identifier = "bd-proyect-mysql"
+  engine = "mysql"
+  engine_version = "8.0"
+  instance_class = "db.t3.micro"
+  allocated_storage = 20
+  storage_type = "gp2"
+  username = "admin"
+  password = "proyecto98765"
+  db_name = "proyecto_db"
+  db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name
+  vpc_security_group_ids = [aws_security_group.SG-BD.id]
+  multi_az = false
+  publicly_accessible = false
+  skip_final_snapshot = true
+  tags = {
+    Name = "RDS MySQL - Proyecto"
+  }
+}
