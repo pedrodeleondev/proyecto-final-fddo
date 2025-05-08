@@ -238,3 +238,21 @@ resource "aws_db_instance" "BD_MySQL" {
     Name = "RDS MySQL - Proyecto"
   }
 }
+
+#Outputs 
+output "rds_endpoint" {
+  description = "Endpoint DNS para conectar a la RDS"
+  value = aws_db_instance.BD_MySQL.endpoint
+}
+output "rds_port" {
+  description = "Puerto de conexión de MySQL"
+  value = aws_db_instance.BD_MySQL.port
+}
+output "rds_username" {
+  description = "Usuario administrador de MySQL"
+  value = aws_db_instance.BD_MySQL.username
+}
+output "rds_database_name" {
+  description = "Nombre de la base de datos"
+  value = aws_db_instance.BD_MySQL.db_name
+}
