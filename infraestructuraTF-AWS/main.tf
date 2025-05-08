@@ -115,3 +115,79 @@ resource "aws_route_table_association" "privada_virginia_BD" {
   subnet_id      = aws_subnet.subred_privada_virginia_BD.id
   route_table_id = aws_route_table.tabla_rutas_privadas.id
 }
+
+#Grupo de Seguridad Web
+resource "aws_security_group" "SG-WebVirginia" {
+  vpc_id = aws_vpc.vpc_virginia.id
+  name = "SG-Proyecto-Web"
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
+#Grupo de Seguridad Backend
+resource "aws_security_group" "SG-LinuxBackend" {
+  vpc_id = aws_vpc.vpc_virginia.id
+  name   = "SG-LinuxBackend"
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [format("%s/32", aws_instance.instancia_WebVirginia.private_ip)]
+  }
+  ingress {
+    from_port = 5000
+    to_port = 5000
+    protocol = "tcp"
+    security_groups = [aws_security_group.SG-WebVirginia.id]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+#Security Group BaseDeDatos
+resource "aws_security_group" "SG-BD" {
+  vpc_id = aws_vpc.vpc_virginia.id
+  name   = "SG-BaseDeDatos"
+
+  ingress {
+    from_port = 3306
+    to_port = 3306
+    protocol = "tcp"
+    cidr_blocks = [format("%s/32", aws_instance.instancia_LinuxBack.private_ip)]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
