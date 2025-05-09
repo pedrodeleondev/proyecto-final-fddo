@@ -1,0 +1,112 @@
+@import url('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Commissioner:wght@100..900&display=swap');
+
+body {
+    background-color: rgb(33, 52, 72);
+
+}
+
+.contenedor {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+* {
+    color: #F6F6F6;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header,
+footer {
+    background-color: #ECEFCAB2;
+}
+
+header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 137px;
+
+    .nombre {
+        color: #ECEFCA;
+    }
+}
+
+.nombre {
+    margin-left: 5%;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.header_opciones {
+    margin-right: 5%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_opciones>i {
+    font-size: 32px;
+}
+
+.header_opciones>a>i {
+    font-size: 32px;
+}
+.header_opciones>* {
+    margin-right: 5%;
+}
+
+.buscador {
+    background-color: #F6F6F6;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#buscadortxt {
+    border: none;
+    background-color: #F6F6F6;
+    color: black;
+}
+
+.lupa {
+
+    color: rgba(0, 0, 0, .1);
+}
+
+footer {
+    height: 137px;
+    width: 100vw;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.copyright {
+    font-family: "Commissioner", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "FLAR" 0,
+        "VOLM" 0;
+}
+
+.redes>i {
+    font-size: 21px;
+    margin-right: 10px;
+}
