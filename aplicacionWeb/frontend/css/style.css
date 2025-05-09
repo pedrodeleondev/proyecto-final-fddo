@@ -11,7 +11,6 @@ body {
     flex-flow: column;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
     width: 100vw;
 }
 
@@ -61,6 +60,7 @@ header {
 .header_opciones>a>i {
     font-size: 32px;
 }
+
 .header_opciones>* {
     margin-right: 5%;
 }
@@ -87,14 +87,16 @@ header {
 }
 
 footer {
-    height: 137px;
+    height: 137px !important;
     width: 100vw;
     display: flex;
     flex-flow: row;
     justify-content: space-around;
     align-items: center;
 }
-
+.cuerpo{
+    width:80%;
+}
 .copyright {
     font-family: "Commissioner", sans-serif;
     font-optical-sizing: auto;
@@ -109,4 +111,55 @@ footer {
 .redes>i {
     font-size: 21px;
     margin-right: 10px;
+}
+
+
+.seccionAudifonos {
+    width: 417px;
+    background-color: #547792;
+    padding: 20px;
+    position: relative;
+    font-family: "Chakra Petch", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 491px;
+}
+
+.seccionAudifonos>img {
+    width: 299px;
+    height: 299px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    box-sizing: border-box;
+}
+.seccionAudifonos b {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.seccionAudifonos span {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.seccionAudifonos .precio {
+  font-weight: bold;
+  color: #ECEFCA;
+  font-size: 18px;
+}
+
+.colorAudifonos {
+  width: 28px;
+  height: 28px;
+  border-radius: 500px;
+}
+.cuerpo_opciones{
+    display:flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
 }
