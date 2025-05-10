@@ -95,7 +95,7 @@ footer {
     flex-flow: row;
     justify-content: space-around;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 65px;
 }
 
 .copyright {
@@ -114,13 +114,21 @@ footer {
     margin-right: 10px;
 }
 
-/* Style de Login*/
-.contenido {
+/* Style de Register y Login*/
+.contenidoRegister {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 4rem;
+}
+
+.contenidoLogin {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7rem;
 }
   
 .formulario {
@@ -175,8 +183,12 @@ footer {
         height: 120px;
         margin-bottom: 40px;
     }
-    .contenido {
+    .contenidoRegister .contenidoLogin {
         padding: 1rem;
+    }
+
+    .contenidoLogin {
+        padding: 8.5%;
     }
 
     footer {
@@ -186,7 +198,6 @@ footer {
         flex-flow: row;
         justify-content: space-around;
         align-items: center;
-        margin-top: 40px;
     }
 
     .copyright {
