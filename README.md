@@ -9,3 +9,7 @@ Proyecto de tienda en línea de audífonos. El sitio web será desplegado en AWS
 ## Infraestructura AWS
 Diagrama generado en Lucid, plataforma que nos facilita el generar diagramas para este tipo de proyectos, en ese diagrama podremos obtener de forma visual la distribución de instancias, VPC, grupos de seguridad y base de datos que nos son relevantes para la funcionalidad del proyecto.
 - [Link de diagrama en Lucid](https://lucid.app/lucidchart/a0f93e7d-2e5d-4ecd-a80a-d849d5a7e55e/edit?viewport_loc=-1905%2C-660%2C2270%2C1346%2C0_0&invitationId=inv_ee29050c-9381-48f5-ad0d-21d71866cd73)
+
+## Diseño de pagina
+Se manejo un diseño por parte de nuestra integrante Paola Urdiales, en donde nos dio una muestra del diseño que se espera ofrezca nuestra pagina, dando asi diseños para las paginas de Inicio, Compras, Login, Registro y Carrito, pueden ver estos diseños en el siguiente link:
+- [Link de diseños en Figma](https://www.figma.com/design/C5JObP2Vf4ttap1RI5ZaEo/Proyecto-Final_DevOps?node-id=13-201&t=Y6E3B1TAePUo9xeh-1)
