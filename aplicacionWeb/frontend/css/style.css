@@ -210,74 +210,107 @@ footer {
     }
 }
 
-/* Style de Index
-.cuerpo{
-    width:80%;
+/*Style de inicio*/
+.cuerpo {
+    width:85%;
 }
 
-.seccionAudifonos {
-    width: 417px;
-    background-color: #547792;
-    padding: 20px;
-    position: relative;
-    font-family: "Chakra Petch", sans-serif;
+i {
+    font-size: 28px;
+}
+
+.home {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.carrito {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 491px;
+    justify-content: flex-end;
+    font-size: 28px;
 }
 
-.seccionAudifonos>img {
-    width: 299px;
-    height: 299px;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    box-sizing: border-box;
-}
-.seccionAudifonos b {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.seccionAudifonos span {
-  font-size: 14px;
-  color: #ffffff;
-}
-
-.seccionAudifonos .precio {
-  font-weight: bold;
-  color: #ECEFCA;
-  font-size: 18px;
-}
-
-.colorAudifonos {
-  width: 28px;
-  height: 28px;
-  border-radius: 500px;
-}
 .cuerpo_opciones{
     display:flex;
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.color1Audifonos1 {
-    background-color: #FBE4D6;
+.productos {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    margin-bottom: 25px;
+}
+  
+.producto {
+    background-color: #5c7894;
+    display: flex;
+    padding: 1rem;
+    width: 420px;
+    height: 495px;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.producto img {
+    width: 85%;
+    height: 55%;
+    border-radius: 10px;
+    margin-left: 10%;
+}
+  
+.producto h3 {
+    margin-top: 1rem;
+    font-weight: 600;
+    font-family: 'Changa', sans-serif;
+}
+  
+.producto p {
+    font-size: 15px;
+    margin-top: -10px;
+    font-family: 'Commissioner', sans-serif;
+}
+  
+.producto strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: #ECEFCA;
+}
+  
+.colores {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 10px;
+}
+  
+.color {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    outline: none;
 }
 
-.color2Audifonos1 {
-    background-color: #000000;
+.color:focus {
+    outline: 2px solid #ccc;
 }
 
-.color3Audifonos1 {
-    background-color: #213448;
+@media (max-width: 930px) and (min-width:320px){
+    .productos {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
-.color4Audifonos1 {
-    background-color: #F6F6F6;
+@media (max-width: 489px){
+    .producto {
+        width: 100%;
+    }
 }
-*/
