@@ -314,3 +314,133 @@ i {
         width: 100%;
     }
 }
+
+/*Style de carrito*/
+.productosCarr {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+    margin-bottom: 25px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.productoCarr {
+    background-color: #547792;
+    display: flex;
+    padding: 1rem;
+    width: 90%;
+    height: 100%;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.productoCarrito {
+    display: flex;
+    padding: 1rem;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.productoContenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+  
+.productoCarr img {
+    width: 40%;
+    height: 70%;
+    border-radius: 10px;
+}
+  
+.productoContenido h3 {
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 32px;
+    font-family: 'Changa', sans-serif;
+}
+  
+.productoContenido h5 {
+    font-size: 18px;
+    margin-top: -20px;
+    font-family: 'Commissioner', sans-serif;
+    font-weight: 600;
+}
+
+.productoContenido p {
+    font-size: 16px;
+    margin-top: 5px;
+    font-family: 'Commissioner', sans-serif;
+    font-weight: 500;
+}
+  
+.productoContenido strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: #ECEFCA;
+}
+
+.cantidades {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.cantidades p {
+    margin-top: 7%;
+}
+
+.boton {
+    padding: 5px 10px;
+    font-size: 10px;
+    cursor: pointer;
+    background-color: #213448;
+    border: none;
+}
+
+.cantidad {
+    font-size: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+a {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.botonComprar {
+    padding: 20px 45px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #F6F6F6;
+    border: none;
+    color: #213448;
+}
+
+.botonAcom {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.compra {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.compras{
+    display:flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+}
