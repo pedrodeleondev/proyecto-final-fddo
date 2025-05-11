@@ -70,11 +70,19 @@ resource "aws_subnet" "subred_privada_virginia_BD" {
     Name = "Subred Privada BD - Proyecto"
   }
 }
+resource "aws_subnet" "subred_privada_virginia_BD2" {
+  vpc_id                  = aws_vpc.vpc_virginia.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-1d"
+  tags = {
+    Name = "Subred Privada BD2 - Proyecto"
+  }
+}
 
 #Grupo de subred RDS
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "db-subnet-group"
-  subnet_ids = [aws_subnet.subred_privada_virginia_BD.id]
+  subnet_ids = [aws_subnet.subred_privada_virginia_BD.id, aws_subnet.subred_privada_virginia_BD2.id]
   tags = {
     Name = "Grupo de subred BD - Proyecto"
   }
@@ -109,9 +117,12 @@ resource "aws_route_table_association" "publica_virginia_Web" {
   subnet_id      = aws_subnet.subred_publica_virginia_Web.id
   route_table_id = aws_route_table.tabla_rutas_virginia.id
 }
-
 resource "aws_route_table_association" "privada_virginia_BD" {
   subnet_id      = aws_subnet.subred_privada_virginia_BD.id
+  route_table_id = aws_route_table.tabla_rutas_privadas.id
+}
+resource "aws_route_table_association" "privada_virginia_BD2" {
+  subnet_id      = aws_subnet.subred_privada_virginia_BD2.id
   route_table_id = aws_route_table.tabla_rutas_privadas.id
 }
 
