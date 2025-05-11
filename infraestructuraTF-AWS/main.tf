@@ -60,7 +60,7 @@ resource "aws_subnet" "subred_privada_virginia_BD" {
 #Grupo de subred RDS
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "db-subnet-group"
-  subnet_ids = [aws_subnet.subred_privada_virginia_Back.id, aws_subnet.subred_privada_virginia_BD.id]
+  subnet_ids = [aws_subnet.subred_privada_virginia_BD.id]
   tags = {
     Name = "Grupo de subred BD - Proyecto"
   }
