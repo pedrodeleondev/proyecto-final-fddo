@@ -202,6 +202,15 @@ footer {
 /*Style de index*/
 .cuerpo {
     width:85%;
+    margin-bottom: 15%;
+}
+
+@media (max-width: 889px) and (min-width:320px){
+    .cuerpo {
+        width:85%;
+        margin-bottom: 32%;
+    }
+    
 }
 
 i {
@@ -314,60 +323,92 @@ i {
 }
 
 /*Style de carrito*/
+.productosCarr {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+    margin-bottom: 25px;
+    flex-direction: column;
+    align-items: center;
+}
+
 .productoCarr {
     background-color: #547792;
     display: flex;
     padding: 1rem;
-    width: 96%;
+    width: 90%;
     height: 100%;
     position: relative;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.productoCarrito {
+    display: flex;
+    padding: 1rem;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.productoContenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
 }
   
-.productoCarr th {
-    font-size: 19px;
+.productoCarr img {
+    width: 40%;
+    height: 70%;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+  
+.productoContenido h3 {
     margin-top: 1rem;
-    font-weight: 500;
-    width: 25%;
+    font-weight: 600;
+    font-size: 32px;
     font-family: 'Changa', sans-serif;
 }
-
-.productoCarr thead {
-    font-size: 19px;
-    margin-top: 1rem;
-    font-weight: 500;
-    width: 25%;
-    background-color: #213448;
-    font-family: 'Changa', sans-serif;
-}
-
-.productoCarr td {
-    font-size: 16px;
+  
+.productoContenido h5 {
+    font-size: 18px;
+    margin-top: -20px;
     font-family: 'Commissioner', sans-serif;
-    font-weight: 400;
-    color: #000000;
-    text-align: center;
+    font-weight: 600;
 }
 
-.productoCarr input {
+.productoContenido p {
     font-size: 16px;
+    margin-top: 5px;
     font-family: 'Commissioner', sans-serif;
     font-weight: 500;
-    margin-bottom: 5%;
-    margin-top: 5%;
-    background-color: #547792;
-    border: none;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    outline: none;
-    background: transparent;
+}
+  
+.productoContenido strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: #ECEFCA;
 }
 
-button {
+.cantidades {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.cantidades p {
+    margin-top: 7%;
+}
+
+.boton {
     padding: 5px 10px;
     font-size: 10px;
     cursor: pointer;
-    background-color: #537792;
+    background-color: #213448;
     border: none;
 }
 
@@ -379,19 +420,17 @@ button {
 
 a {
     display: flex;
-    justify-content:  center;
+    justify-content: flex-end;
 }
 
 .botonComprar {
-    padding: 15px 35px;
-    font-size: 14px;
+    padding: 20px 45px;
+    font-size: 18px;
     cursor: pointer;
     border-radius: 10px;
     background-color: #F6F6F6;
     border: none;
     color: #213448;
-    font-family: 'Commissioner', sans-serif;
-    font-weight: 800;
 }
 
 .botonAcom {
@@ -399,13 +438,11 @@ a {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 15%;
 }
 
 .compra {
     font-size: 25px;
     font-weight: 600;
-    font-family: 'Commissioner', sans-serif;
 }
 
 .compras{
@@ -415,14 +452,6 @@ a {
     align-items: flex-start;
     width: 100%;
     flex-direction: column;
-}
-
-.compras h3{
-    color: #ECEFCA;
-    font-size: 20px;
-}
-.compras span{
-    color: #ECEFCA;
 }
 
 /*Style de Compras*/

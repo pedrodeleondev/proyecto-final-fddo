@@ -31,7 +31,7 @@
                     <h5>{{ producto.descripcion }}</h5>
                     <p>${{ producto.precio }}</p>
                     <p class="centrar"><strong>Inventario:</strong> {{ producto.inventario }}</p>
-                    <button class="botonProd" onclick="agregarAlCarrito({{ producto.id }}, '{{ producto.nombre }}', {{ producto.precio }})">
+                    <button class="botonProd" onclick="agregarAlCarrito({{ producto.id }}, '{{ producto.nombre }}', {{ producto.precio }}, '{{ producto.imagen_url }}', '{{ producto.descripcion }}')">
                         Añadir al carrito
                     </button>
                 </div>
