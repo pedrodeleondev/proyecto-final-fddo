@@ -27,6 +27,20 @@ resource "aws_eip" "nat_eip" {
   }
 }
 
+# Elastic IP para Web
+resource "aws_eip" "eip_web" {
+  vpc = true
+  tags = {
+    Name = "Elastic IP para Instancia Web"
+  }
+}
+
+# Asociación de Elastic IP con la instancia
+resource "aws_eip_association" "asociacion_web" {
+  instance_id   = aws_instance.instancia_WebVirginia.id
+  allocation_id = aws_eip.eip_web.id
+}
+
 #NAT Gateway
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
