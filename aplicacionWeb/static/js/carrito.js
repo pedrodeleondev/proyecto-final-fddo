@@ -56,7 +56,7 @@ function mostrarCarrito() {
                 <input type="number" min="1" value="${producto.cantidad}" onchange="cambiarCantidad(${index}, this.value)">
             </td>
             <td>$${subtotal.toFixed(2)}</td>
-            <td><button onclick="eliminarDelCarrito(${index})">❌</button></td>
+            <td><button onclick="eliminarDelCarrito(${index})"><i class="fa-solid fa-xmark"></i></button></td>
         `;
         tbody.appendChild(fila);
     });

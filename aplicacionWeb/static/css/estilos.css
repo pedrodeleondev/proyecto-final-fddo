@@ -314,90 +314,60 @@ i {
 }
 
 /*Style de carrito*/
-.productosCarr {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: nowrap;
-    margin-bottom: 25px;
-    flex-direction: column;
-    align-items: center;
-}
-
 .productoCarr {
     background-color: #547792;
     display: flex;
     padding: 1rem;
-    width: 90%;
+    width: 96%;
     height: 100%;
     position: relative;
     flex-direction: column;
-    justify-content: space-between;
-}
-
-.productoCarrito {
-    display: flex;
-    padding: 1rem;
-    position: relative;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.productoContenido {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
 }
   
-.productoCarr img {
-    width: 40%;
-    height: 70%;
-    border-radius: 10px;
-}
-  
-.productoContenido h3 {
+.productoCarr th {
+    font-size: 19px;
     margin-top: 1rem;
-    font-weight: 600;
-    font-size: 32px;
+    font-weight: 500;
+    width: 25%;
     font-family: 'Changa', sans-serif;
 }
-  
-.productoContenido h5 {
-    font-size: 18px;
-    margin-top: -20px;
-    font-family: 'Commissioner', sans-serif;
-    font-weight: 600;
+
+.productoCarr thead {
+    font-size: 19px;
+    margin-top: 1rem;
+    font-weight: 500;
+    width: 25%;
+    background-color: #213448;
+    font-family: 'Changa', sans-serif;
 }
 
-.productoContenido p {
+.productoCarr td {
     font-size: 16px;
-    margin-top: 5px;
+    font-family: 'Commissioner', sans-serif;
+    font-weight: 400;
+    color: #000000;
+    text-align: center;
+}
+
+.productoCarr input {
+    font-size: 16px;
     font-family: 'Commissioner', sans-serif;
     font-weight: 500;
-}
-  
-.productoContenido strong {
-    display: block;
-    margin-top: 0.5rem;
-    color: #ECEFCA;
-}
-
-.cantidades {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: Arial, sans-serif;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    background-color: #547792;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    background: transparent;
 }
 
-.cantidades p {
-    margin-top: 7%;
-}
-
-.boton {
+button {
     padding: 5px 10px;
     font-size: 10px;
     cursor: pointer;
-    background-color: #213448;
+    background-color: #537792;
     border: none;
 }
 
@@ -413,8 +383,8 @@ a {
 }
 
 .botonComprar {
-    padding: 20px 80px;
-    font-size: 18px;
+    padding: 15px 35px;
+    font-size: 14px;
     cursor: pointer;
     border-radius: 10px;
     background-color: #F6F6F6;
@@ -429,6 +399,7 @@ a {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-bottom: 15%;
 }
 
 .compra {
@@ -444,6 +415,14 @@ a {
     align-items: flex-start;
     width: 100%;
     flex-direction: column;
+}
+
+.compras h3{
+    color: #ECEFCA;
+    font-size: 20px;
+}
+.compras span{
+    color: #ECEFCA;
 }
 
 /*Style de Compras*/

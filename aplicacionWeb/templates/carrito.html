@@ -7,31 +7,57 @@
     <script src="{{ url_for('static', filename='js/carrito.js') }}" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>🛒 Carrito de Compras</h1>
-        <div class="top-nav">
-            <a href="{{ url_for('index') }}">← Volver a productos</a>
-            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    <div class="contenedor">
+        <header>
+            <a href="{{ url_for('index') }}" class="nombre">TUNLY</a>
+            <div class="header_opciones">
+                <a href="{{ url_for('carrito') }}"><i i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="{{ url_for('miscompras') }}"><i class="fa-solid fa-receipt"></i></a>
+                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                {% if session.get('es_admin') %}
+                <a href="{{ url_for('admin_productos') }}"> <i class="fa-solid fa-user"></i></a>
+                {% endif %}
+            </div>
+        </header>
+        <div class="cuerpo">
+            <div class="cuerpo_opciones">
+                <h1 class="home">CARRITO</h1>
+            </div>
+
+            <article class="productoCarr">
+                <table id="tabla-carrito">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se llenará con JS desde LocalStorage -->
+                    </tbody>
+                </table>
+            </article>
+
+            <div class="compras">
+                <h3>Total: $<span id="total-carrito">0.00</span></h3>
+            </div>
+            <div class="botonAcom">
+                <button class="botonComprar" onclick="realizarCompra()">Realizar compra</button>
+            </div>
         </div>
 
-        <table id="tabla-carrito">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llenará con JS desde LocalStorage -->
-            </tbody>
-        </table>
-
-        <h3>Total: $<span id="total-carrito">0.00</span></h3>
-
-        <button onclick="realizarCompra()">Realizar compra</button>
+        <footer>
+            <span class="copyright">© 2025 TUNLY. Todos los derechos reservados</span>
+            <div class="redes">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-x-twitter"></i>
+            </div>
+        </footer>
     </div>
+    <script src="https://kit.fontawesome.com/d351efb335.js" crossorigin="anonymous"></script>
 </body>
 </html>

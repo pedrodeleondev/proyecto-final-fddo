@@ -9,7 +9,7 @@
 <body>
     <div class="contenedor">
         <header>
-            <a href="index.html" class="nombre">TUNLY</a>
+            <a href="{{ url_for('index') }}" class="nombre">TUNLY</a>
             <div class="header_opciones">
                 <a href="{{ url_for('carrito') }}"><i i class="fa-solid fa-cart-shopping"></i></a>
                 <a href="{{ url_for('miscompras') }}"><i class="fa-solid fa-receipt"></i></a>
