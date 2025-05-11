@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify, get_flashed_messages
 from db_config import get_db, close_db
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import pymysql
 
 app = Flask(__name__)
 app.secret_key = 'clave_super_secreta'
@@ -191,11 +192,22 @@ def admin_productos():
 def eliminar_producto(producto_id):
     if not session.get('es_admin'):
         return redirect(url_for('index'))
+
     db = get_db()
-    with db.cursor() as cursor:
-        cursor.execute("DELETE FROM productos WHERE id = %s", (producto_id,))
+    try:
+        with db.cursor() as cursor:
+            cursor.execute("DELETE FROM productos WHERE id = %s", (producto_id,))
         db.commit()
+        flash("Producto eliminado correctamente.")
+    except pymysql.err.IntegrityError as e:
+        if e.args[0] == 1451:
+            if not get_flashed_messages(with_categories=False):
+                flash("No se puede eliminar el producto porque está en compras de clientes.")
+        else:
+            flash("Error al intentar eliminar el producto.")
+        db.rollback()
     return redirect(url_for('admin_productos'))
+
 
 @app.route('/editar_producto/<int:producto_id>', methods=['POST'])
 def editar_producto(producto_id):

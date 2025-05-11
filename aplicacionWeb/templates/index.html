@@ -13,10 +13,10 @@
             <div class="header_opciones">
                 <a href="{{ url_for('carrito') }}"><i i class="fa-solid fa-cart-shopping"></i></a>
                 <a href="{{ url_for('miscompras') }}"><i class="fa-solid fa-receipt"></i></a>
-                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
                 {% if session.get('es_admin') %}
                 <a href="{{ url_for('admin_productos') }}"> <i class="fa-solid fa-user"></i></a>
                 {% endif %}
+                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a> 
             </div>
         </header>
         <div class="cuerpo">

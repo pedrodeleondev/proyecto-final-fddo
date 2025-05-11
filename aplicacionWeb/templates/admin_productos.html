@@ -6,70 +6,141 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Administración de Productos</h1>
+    <div class="contenedor">
+        <header>
+            <a href="{{ url_for('index') }}" class="nombre">TUNLY</a>
+            <div class="header_opciones">
+                <a href="{{ url_for('carrito') }}"><i i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="{{ url_for('miscompras') }}"><i class="fa-solid fa-receipt"></i></a>
+                {% if session.get('es_admin') %}
+                <a href="{{ url_for('admin_productos') }}"> <i class="fa-solid fa-user"></i></a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            </div>
+        </header>
+        <div class="cuerpoComp">
+            <div class="cuerpo_opciones">
+                <h1 class="home">ADMINISTRACIÓN DE PRODUCTOS</h1>
+                <button id="mostrarFormulario">Añadir nuevo producto</button>
+            </div>
 
-        <div class="top-nav">
-            <a href="{{ url_for('index') }}">← Volver a la tienda</a>
-            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
-        </div>
+            <div class="formProducto" id="formulario" style="display: none;">
+                <h2>Añadir nuevo producto</h2>
+                <form method="POST">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" required>
 
-        <h2>Añadir nuevo producto</h2>
-        <form method="POST">
-            <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" required>
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" required></textarea>
 
-            <label for="descripcion">Descripción:</label>
-            <textarea name="descripcion" id="descripcion" required></textarea>
+                    <label for="imagen_url">URL de la imagen:</label>
+                    <input type="text" name="imagen_url" id="imagen_url" required>
 
-            <label for="imagen_url">URL de la imagen:</label>
-            <input type="text" name="imagen_url" id="imagen_url" required>
+                    <label for="precio">Precio:</label>
+                    <input type="number" name="precio" id="precio" step="0.01" required>
 
-            <label for="precio">Precio:</label>
-            <input type="number" name="precio" id="precio" step="0.01" required>
+                    <label for="inventario">Inventario:</label>
+                    <input type="number" name="inventario" id="inventario" required>
 
-            <label for="inventario">Inventario:</label>
-            <input type="number" name="inventario" id="inventario" required>
+                    <button type="submit">Agregar producto</button>
+                </form>
+            </div>
 
-            <button type="submit">Agregar producto</button>
-        </form>
-
-        <h2>Productos existentes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>URL Imagen</th>
-                    <th>Precio</th>
-                    <th>Inventario</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
+            <h2>Productos existentes</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alertError">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                       {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <div class="productos">
                 {% for producto in productos %}
-                <tr>
-                    <form method="POST" action="{{ url_for('editar_producto', producto_id=producto.id) }}">
-                        <td>{{ producto.id }}</td>
-                        <td><input type="text" name="nombre" value="{{ producto.nombre }}" required></td>
-                        <td><input type="text" name="descripcion" value="{{ producto.descripcion }}" required></td>
-                        <td><input type="text" name="imagen_url" value="{{ producto.imagen_url }}" required></td>
-                        <td><input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required></td>
-                        <td><input type="number" name="inventario" value="{{ producto.inventario }}" required></td>
-                        <td>
-                            <button type="submit">Guardar</button>
-                        </td>
-                    </form>
-                    <td>
+                <div class="producto">
+                    <div class="opcProd">
+                        <button onclick="openModal({{ producto.id }})"><i class="fa-solid fa-pen"></i></button>
                         <form method="POST" action="{{ url_for('eliminar_producto', producto_id=producto.id) }}">
-                            <button type="submit" onclick="return confirm('¿Eliminar este producto?')">Eliminar</button>
+                            <button type="submit" onclick="return confirm('¿Eliminar este producto?')"><i class="fa-solid fa-trash"></i></button>
                         </form>
-                    </td>
-                </tr>
+                    </div>
+                    <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}">
+                    <h3>{{ producto.nombre }}</h3>
+                    <h5>{{ producto.descripcion }}</h5>
+                    <p>${{ producto.precio }}</p>
+                    <p><strong>Inventario:</strong> {{ producto.inventario }}</p>
+
+                    <div id="modalEditar-{{ producto.id }}" class="modal">
+                        <div class="modalContenido">
+                            <div class="edicionProd">
+                                <form method="POST" action="{{ url_for('editar_producto', producto_id=producto.id) }}">
+                                    <span class="close" onclick="closeModal({{ producto.id }})">&times;</span>
+                                    <h3>Editar Producto</h3>
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+                                    <label for="descripcion">Descripción:</label>
+                                    <input type="text" name="descripcion" value="{{ producto.descripcion }}" required>
+                                    <label for="imagen">Imagen:</label>
+                                    <input type="text" name="imagen_url" value="{{ producto.imagen_url }}" required>
+                                    <label for="precio">Precio:</label>
+                                    <input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required>
+                                    <label for="inventario">Inventario:</label>
+                                    <input type="number" name="inventario" value="{{ producto.inventario }}" required>
+                                    <button type="submit">Guardar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            </div>
+        </div>
+    <footer>
+        <span class="copyright">© 2025 TUNLY. Todos los derechos reservados</span>
+        <div class="redes">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+        </div>
+    </footer>
+    <script src="https://kit.fontawesome.com/d351efb335.js" crossorigin="anonymous"></script>
+    <script>
+        // Obtener el botón y el formulario
+        const boton = document.getElementById('mostrarFormulario');
+        const formulario = document.getElementById('formulario');
+
+        // Añadir evento de clic al botón
+        boton.addEventListener('click', function() {
+            // Alternar la visibilidad del formulario
+            if (formulario.style.display === 'none' || formulario.style.display === '') {
+                formulario.style.display = 'block';  // Mostrar formulario
+            } else {
+                formulario.style.display = 'none';  // Ocultar formulario
+            }
+        });
+
+        // Función para abrir el modal
+        function openModal(productoId) {
+            const modal = document.getElementById(`modalEditar-${productoId}`);
+            modal.style.display = "block"; // Mostrar el modal
+        }
+
+        // Función para cerrar el modal
+        function closeModal(productoId) {
+            const modal = document.getElementById(`modalEditar-${productoId}`);
+            modal.style.display = "none"; // Ocultar el modal
+        }
+
+        // Cerrar el modal si se hace clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.className === "modal") {
+                const modals = document.getElementsByClassName("modal");
+                for (let modal of modals) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
