@@ -27,6 +27,20 @@ resource "aws_eip" "nat_eip" {
   }
 }
 
+# Elastic IP para Web
+resource "aws_eip" "eip_web" {
+  vpc = true
+  tags = {
+    Name = "Elastic IP para Instancia Web"
+  }
+}
+
+# Asociación de Elastic IP con la instancia
+resource "aws_eip_association" "asociacion_web" {
+  instance_id   = aws_instance.instancia_WebVirginia.id
+  allocation_id = aws_eip.eip_web.id
+}
+
 #NAT Gateway
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
@@ -47,16 +61,6 @@ resource "aws_subnet" "subred_publica_virginia_Web" {
   }
 }
 
-#Subred Privada Backend
-resource "aws_subnet" "subred_privada_virginia_Back" {
-  vpc_id            = aws_vpc.vpc_virginia.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-east-1b"
-  tags = {
-    Name = "Subred Privada Backend - Proyecto"
-  }
-}
-
 #Subred Privada BaseDatos
 resource "aws_subnet" "subred_privada_virginia_BD" {
   vpc_id            = aws_vpc.vpc_virginia.id
@@ -66,11 +70,19 @@ resource "aws_subnet" "subred_privada_virginia_BD" {
     Name = "Subred Privada BD - Proyecto"
   }
 }
+resource "aws_subnet" "subred_privada_virginia_BD2" {
+  vpc_id                  = aws_vpc.vpc_virginia.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-1d"
+  tags = {
+    Name = "Subred Privada BD2 - Proyecto"
+  }
+}
 
 #Grupo de subred RDS
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "db-subnet-group"
-  subnet_ids = [aws_subnet.subred_privada_virginia_Back.id, aws_subnet.subred_privada_virginia_BD.id]
+  subnet_ids = [aws_subnet.subred_privada_virginia_BD.id, aws_subnet.subred_privada_virginia_BD2.id]
   tags = {
     Name = "Grupo de subred BD - Proyecto"
   }
@@ -105,14 +117,12 @@ resource "aws_route_table_association" "publica_virginia_Web" {
   subnet_id      = aws_subnet.subred_publica_virginia_Web.id
   route_table_id = aws_route_table.tabla_rutas_virginia.id
 }
-
-resource "aws_route_table_association" "privada_virginia_Backend" {
-  subnet_id      = aws_subnet.subred_privada_virginia_Back.id
-  route_table_id = aws_route_table.tabla_rutas_privadas.id
-}
-
 resource "aws_route_table_association" "privada_virginia_BD" {
   subnet_id      = aws_subnet.subred_privada_virginia_BD.id
+  route_table_id = aws_route_table.tabla_rutas_privadas.id
+}
+resource "aws_route_table_association" "privada_virginia_BD2" {
+  subnet_id      = aws_subnet.subred_privada_virginia_BD2.id
   route_table_id = aws_route_table.tabla_rutas_privadas.id
 }
 
@@ -139,31 +149,11 @@ resource "aws_security_group" "SG-WebVirginia" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-
-#Grupo de Seguridad Backend
-resource "aws_security_group" "SG-LinuxBackend" {
-  vpc_id = aws_vpc.vpc_virginia.id
-  name   = "SG-LinuxBackend"
-
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = [format("%s/32", aws_instance.instancia_WebVirginia.private_ip)]
-  }
   ingress {
     from_port = 5000
     to_port = 5000
     protocol = "tcp"
-    security_groups = [aws_security_group.SG-WebVirginia.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port = 0
@@ -182,26 +172,13 @@ resource "aws_security_group" "SG-BD" {
     from_port = 3306
     to_port = 3306
     protocol = "tcp"
-    cidr_blocks = [format("%s/32", aws_instance.instancia_LinuxBack.private_ip)]
+    cidr_blocks = [format("%s/32", aws_instance.instancia_WebVirginia.private_ip)]
   }
   egress {
     from_port = 0
     to_port = 0
     protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-#Instancia Linux Backend
-resource "aws_instance" "instancia_LinuxBack" {
-  ami = "ami-0f88e80871fd81e91"
-  instance_type = "t2.micro"
-  subnet_id = aws_subnet.subred_privada_virginia_Back.id
-  key_name = "vockey"
-  vpc_security_group_ids = [aws_security_group.SG-LinuxBackend.id]
-  associate_public_ip_address = false
-  tags = {
-    Name = "Linux Backend - Proyecto"
   }
 }
 
