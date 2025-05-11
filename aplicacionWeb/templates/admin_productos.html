@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Productos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Administración de Productos</h1>
+
+        <div class="top-nav">
+            <a href="{{ url_for('index') }}">← Volver a la tienda</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
+
+        <h2>Añadir nuevo producto</h2>
+        <form method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea name="descripcion" id="descripcion" required></textarea>
+
+            <label for="imagen_url">URL de la imagen:</label>
+            <input type="text" name="imagen_url" id="imagen_url" required>
+
+            <label for="precio">Precio:</label>
+            <input type="number" name="precio" id="precio" step="0.01" required>
+
+            <label for="inventario">Inventario:</label>
+            <input type="number" name="inventario" id="inventario" required>
+
+            <button type="submit">Agregar producto</button>
+        </form>
+
+        <h2>Productos existentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>URL Imagen</th>
+                    <th>Precio</th>
+                    <th>Inventario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <form method="POST" action="{{ url_for('editar_producto', producto_id=producto.id) }}">
+                        <td>{{ producto.id }}</td>
+                        <td><input type="text" name="nombre" value="{{ producto.nombre }}" required></td>
+                        <td><input type="text" name="descripcion" value="{{ producto.descripcion }}" required></td>
+                        <td><input type="text" name="imagen_url" value="{{ producto.imagen_url }}" required></td>
+                        <td><input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required></td>
+                        <td><input type="number" name="inventario" value="{{ producto.inventario }}" required></td>
+                        <td>
+                            <button type="submit">Guardar</button>
+                        </td>
+                    </form>
+                    <td>
+                        <form method="POST" action="{{ url_for('eliminar_producto', producto_id=producto.id) }}">
+                            <button type="submit" onclick="return confirm('¿Eliminar este producto?')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
