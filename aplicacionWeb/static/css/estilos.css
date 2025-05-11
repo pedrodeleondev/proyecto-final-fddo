@@ -120,6 +120,7 @@ footer {
     justify-content: center;
     align-items: center;
     padding: 4rem;
+    flex-direction: column;
 }
 
 .contenidoLogin {
@@ -137,11 +138,18 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 400px;
+    width: 100%;
     text-align: center;
 }
   
 .contenidoLogin h2 {
+    margin-bottom: 1rem;
+    font-size: 32px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.contenidoRegister h2 {
     margin-bottom: 1rem;
     font-size: 32px;
     font-weight: 500;
@@ -190,6 +198,7 @@ footer {
         padding: 13.5%;
         width: 59%;
     }
+
     footer {
         height: 125px !important;
         width: 100%;
