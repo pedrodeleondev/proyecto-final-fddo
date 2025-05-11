@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify, get_flashed_messages
 from db_config import get_db, close_db
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import pymysql
 
 app = Flask(__name__)
 app.secret_key = 'clave_super_secreta'
@@ -82,7 +83,7 @@ def miscompras():
     with db.cursor() as cursor:
         cursor.execute("""
             SELECT c.id AS compra_id, c.fecha_compra, c.total,
-                   p.nombre, dc.cantidad, dc.precio_unitario
+                   p.nombre, dc.cantidad, dc.precio_unitario, p.imagen_url, p.descripcion
             FROM compras c
             JOIN detalle_compras dc ON c.id = dc.compra_id
             JOIN productos p ON dc.producto_id = p.id
@@ -105,6 +106,8 @@ def miscompras():
             'nombre': row['nombre'],
             'cantidad': row['cantidad'],
             'precio_unitario': row['precio_unitario'],
+            'imagen_url': row['imagen_url'],
+            'descripcion': row['descripcion'],
             'subtotal': row['cantidad'] * row['precio_unitario']
         })
 
@@ -142,9 +145,9 @@ def comprar():
 
             for item in carrito:
                 cursor.execute(
-                    "INSERT INTO detalle_compras (compra_id, producto_id, cantidad, precio_unitario) "
-                    "VALUES (%s, %s, %s, %s)",
-                    (compra_id, item['id'], item['cantidad'], item['precio'])
+                    "INSERT INTO detalle_compras (compra_id, producto_id, cantidad, precio_unitario, imagen_url, descripcion) "
+                    "VALUES (%s, %s, %s, %s, %s, %s)",
+                    (compra_id, item['id'], item['cantidad'], item['precio'], item['imagen_url'], item['descripcion'])
                 )
                 cursor.execute(
                     "UPDATE productos SET inventario = inventario - %s WHERE id = %s",
@@ -155,6 +158,7 @@ def comprar():
         return jsonify({'message': 'Compra realizada'})
     except Exception as e:
         db.rollback()
+        print(f"Error al procesar la compra: {e}")
         return jsonify({'error': 'Error al procesar compra', 'details': str(e)}), 500
 
 # Administración de productos
@@ -188,11 +192,22 @@ def admin_productos():
 def eliminar_producto(producto_id):
     if not session.get('es_admin'):
         return redirect(url_for('index'))
+
     db = get_db()
-    with db.cursor() as cursor:
-        cursor.execute("DELETE FROM productos WHERE id = %s", (producto_id,))
+    try:
+        with db.cursor() as cursor:
+            cursor.execute("DELETE FROM productos WHERE id = %s", (producto_id,))
         db.commit()
+        flash("Producto eliminado correctamente.")
+    except pymysql.err.IntegrityError as e:
+        if e.args[0] == 1451:
+            if not get_flashed_messages(with_categories=False):
+                flash("No se puede eliminar el producto porque está en compras de clientes.")
+        else:
+            flash("Error al intentar eliminar el producto.")
+        db.rollback()
     return redirect(url_for('admin_productos'))
+
 
 @app.route('/editar_producto/<int:producto_id>', methods=['POST'])
 def editar_producto(producto_id):
@@ -218,4 +233,4 @@ def editar_producto(producto_id):
 
 # Ejecutar la app
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)

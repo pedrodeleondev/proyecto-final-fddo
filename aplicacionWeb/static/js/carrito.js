@@ -7,17 +7,18 @@ function guardarCarrito(carrito) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
-function agregarAlCarrito(id, nombre, precio) {
+function agregarAlCarrito(id, nombre, precio, imagen_url, descripcion) {
     let carrito = obtenerCarrito();
     const productoExistente = carrito.find(p => p.id === id);
 
     if (productoExistente) {
         productoExistente.cantidad += 1;
     } else {
-        carrito.push({ id, nombre, precio, cantidad: 1 });
+        carrito.push({ id, nombre, precio, cantidad: 1 , imagen_url, descripcion });
     }
 
     guardarCarrito(carrito);
+    JSON.parse(localStorage.getItem('carrito'))
     alert(`${nombre} se añadió al carrito.`);
 }
 
@@ -38,27 +39,39 @@ function cambiarCantidad(indice, nuevaCantidad) {
 // Mostrar productos en carrito.html
 function mostrarCarrito() {
     const carrito = obtenerCarrito();
-    const tbody = document.querySelector('#tabla-carrito tbody');
+    const contenedor = document.getElementById('contenedor-carrito');
     const totalSpan = document.getElementById('total-carrito');
     let total = 0;
 
-    tbody.innerHTML = '';
+    contenedor.innerHTML = '';
 
     carrito.forEach((producto, index) => {
         const subtotal = producto.precio * producto.cantidad;
         total += subtotal;
 
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${producto.nombre}</td>
-            <td>$${producto.precio.toFixed(2)}</td>
-            <td>
-                <input type="number" min="1" value="${producto.cantidad}" onchange="cambiarCantidad(${index}, this.value)">
-            </td>
-            <td>$${subtotal.toFixed(2)}</td>
-            <td><button onclick="eliminarDelCarrito(${index})">❌</button></td>
+        const article = document.createElement('article');
+        article.className = 'productoCarr';
+        article.innerHTML = `
+            <a class="eliminar" onclick="eliminarDelCarrito(${index})">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            <div class="productoCarrito">
+                <img src="${producto.imagen_url}" alt="${producto.nombre}" />
+                <div class="productoContenido">
+                    <h3>${producto.nombre}</h3>
+                    <h5>${producto.descripcion}</h5>
+                    <p id="opciones">Precio: $${producto.precio.toFixed(2)}</p>
+                    <div class="cantidades">
+                        <p>Cantidad </p>
+                        <button class="boton" onclick="cambiarCantidad(${index}, ${producto.cantidad - 1})">-</button>
+                        <span class="cantidad" id="cantidad">${producto.cantidad}</span>
+                        <button class="boton" onclick="cambiarCantidad(${index}, ${producto.cantidad + 1})">+</button>
+                    </div>
+                </div>
+            </div>
         `;
-        tbody.appendChild(fila);
+
+        contenedor.appendChild(article);
     });
 
     totalSpan.textContent = total.toFixed(2);
