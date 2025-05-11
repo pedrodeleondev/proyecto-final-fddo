@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script src="{{ url_for('static', filename='js/carrito.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Carrito de Compras</h1>
+        <div class="top-nav">
+            <a href="{{ url_for('index') }}">← Volver a productos</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
+
+        <table id="tabla-carrito">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará con JS desde LocalStorage -->
+            </tbody>
+        </table>
+
+        <h3>Total: $<span id="total-carrito">0.00</span></h3>
+
+        <button onclick="realizarCompra()">Realizar compra</button>
+    </div>
+</body>
+</html>

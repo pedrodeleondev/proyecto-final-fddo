@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda de Audífonos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script src="{{ url_for('static', filename='js/carrito.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Tienda de Audífonos</h1>
+        <div class="top-nav">
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            <a href="{{ url_for('carrito') }}">Ver carrito</a>
+            <a href="{{ url_for('miscompras') }}">Mis compras</a>
+            {% if session.get('es_admin') %}
+                <a href="{{ url_for('admin_productos') }}">Administrar productos</a>
+            {% endif %}
+        </div>
+
+        <div class="productos">
+            {% for producto in productos %}
+            <div class="producto">
+                <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}">
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.descripcion }}</p>
+                <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                <p><strong>Inventario:</strong> {{ producto.inventario }}</p>
+                <button onclick="agregarAlCarrito({{ producto.id }}, '{{ producto.nombre }}', {{ producto.precio }})">
+                    Añadir al carrito
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

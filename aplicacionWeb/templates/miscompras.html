@@ -1,0 +1,36 @@
+ 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🧾 Mis Compras</h1>
+        <div class="top-nav">
+            <a href="{{ url_for('index') }}">← Volver a productos</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
+
+        {% if compras %}
+            {% for compra in compras %}
+                <div class="compra">
+                    <h3>Compra #{{ compra.id }} – {{ compra.fecha_compra.strftime('%d/%m/%Y %H:%M') }}</h3>
+                    <p><strong>Total:</strong> ${{ compra.total }}</p>
+                    <ul>
+                        {% for item in compra['items'] %}
+                            <li>
+                                {{ item.nombre }} – {{ item.cantidad }} x ${{ item.precio_unitario }} = ${{ item.subtotal }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No has realizado compras aún.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
