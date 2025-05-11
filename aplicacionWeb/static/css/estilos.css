@@ -58,28 +58,11 @@ header {
 }
 
 .header_opciones>a>i {
-    font-size: 32px;
+    font-size: 30px;
 }
 
 .header_opciones>* {
-    margin-right: 5%;
-}
-
-.buscador {
-    background-color: #F6F6F6;
-    padding: 5px 10px;
-    border-radius: 10px;
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
-    margin-right: 40px;
-}
-
-#buscadortxt {
-    border: none;
-    background-color: #F6F6F6;
-    color: black;
+    margin-right: 20%;
 }
 
 .lupa {
@@ -216,7 +199,7 @@ footer {
     }
 }
 
-/*Style de inicio*/
+/*Style de index*/
 .cuerpo {
     width:85%;
 }
@@ -240,15 +223,17 @@ i {
     display:flex;
     flex-flow: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
+    flex-direction: column;
 }
 
 .productos {
     display: flex;
     gap: 2.5rem;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     margin-bottom: 25px;
+    justify-content: center;
 }
   
 .producto {
@@ -261,7 +246,7 @@ i {
     flex-direction: column;
     justify-content: space-between;
 }
-  
+
 .producto img {
     width: 85%;
     height: 55%;
@@ -271,40 +256,47 @@ i {
   
 .producto h3 {
     margin-top: 1rem;
+    margin-bottom: 10px;
     font-weight: 600;
+    font-size: 22px;
     font-family: 'Changa', sans-serif;
 }
   
+.producto h5 {
+    font-size: 15px;
+    margin-top: -5px;
+    font-family: 'Commissioner', sans-serif;
+}
+
 .producto p {
     font-size: 15px;
-    margin-top: -10px;
+    margin-top: -5px;
+    font-weight: 700;
+    color: #ECEFCA;
     font-family: 'Commissioner', sans-serif;
 }
   
 .producto strong {
     display: block;
-    margin-top: 0.5rem;
-    color: #ECEFCA;
+    color: #ffffff;
 }
   
-.colores {
+.botonProd {
     margin-top: 0.5rem;
     display: flex;
     gap: 10px;
-}
-  
-.color {
+    align-items: center;
     display: inline-block;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    margin-right: 10px;
+    width: 100%;
+    height: 25px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     outline: none;
+    background-color: #213448;
 }
 
-.color:focus {
+.botonProd:focus {
     outline: 2px solid #ccc;
 }
 
@@ -514,87 +506,3 @@ a {
     margin-top: -0.5rem;
     color: #ECEFCA;
 }
-
-/*
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    background-color: #0077cc;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #005fa3;
-}
-
-a {
-    color: #0077cc;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.flash {
-    list-style: none;
-    padding: 10px;
-    color: red;
-}
-
-.top-nav {
-    margin-bottom: 20px;
-    text-align: right;
-}
-
-.productos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.producto {
-    flex: 1 1 250px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    background: #fafafa;
-    text-align: center;
-}
-
-.producto img {
-    max-width: 100%;
-    height: 150px;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 12px;
-    border: 1px solid #ccc;
-    text-align: center;
-}
-
-.compra {
-    margin-bottom: 30px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #f9f9f9;
-}
-*/
