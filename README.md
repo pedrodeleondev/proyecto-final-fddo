@@ -13,3 +13,17 @@ Diagrama generado en Lucid, plataforma que nos facilita el generar diagramas par
 ## Diseño de pagina
 Se manejo un diseño por parte de nuestra integrante Paola Urdiales, en donde nos dio una muestra del diseño que se espera ofrezca nuestra pagina, dando asi diseños para las paginas de Inicio, Compras, Login, Registro y Carrito, pueden ver estos diseños en el siguiente link:
 - [Link de diseños en Figma](https://www.figma.com/design/C5JObP2Vf4ttap1RI5ZaEo/Proyecto-Final_DevOps?node-id=13-201&t=Y6E3B1TAePUo9xeh-1)
+
+
+## Pasos para instalar nuestro proyecto mediante Cloud9
+Primero que nada, hay que crear un Cloud9 completamente nuevo, que no tenga nada instalado anteriormente. 
+
+1.- Primero, tienes que abrir el Cloud9 que creasye y en la terminal ingresas el siguiente comando **git clone https://github.com/pedrodeleondev/proyecto-final-fddo**.
+
+2.-Posteriormente hay que dirigirse a la carpeta con el comando **cd proyecto-final-fddo**.
+
+3.-Ejecutas el comando **chmod +x setup.sh**, para darle permisos al archivo **setup.sh**.
+
+4.- Por último, debes ejecutar el archivo **setup.sh** con el comando **./setup.sh**.
+
+Solo hará falta verificar cual es la IP pública de la instancia que se creo para entrar en la página web. De esta manera se habra instalado Terraform y Docker de manera automática.
