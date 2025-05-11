@@ -82,7 +82,7 @@ def miscompras():
     with db.cursor() as cursor:
         cursor.execute("""
             SELECT c.id AS compra_id, c.fecha_compra, c.total,
-                   p.nombre, dc.cantidad, dc.precio_unitario
+                   p.nombre, dc.cantidad, dc.precio_unitario, p.imagen_url, p.descripcion
             FROM compras c
             JOIN detalle_compras dc ON c.id = dc.compra_id
             JOIN productos p ON dc.producto_id = p.id
@@ -105,6 +105,8 @@ def miscompras():
             'nombre': row['nombre'],
             'cantidad': row['cantidad'],
             'precio_unitario': row['precio_unitario'],
+            'imagen_url': row['imagen_url'],
+            'descripcion': row['descripcion'],
             'subtotal': row['cantidad'] * row['precio_unitario']
         })
 
@@ -142,9 +144,9 @@ def comprar():
 
             for item in carrito:
                 cursor.execute(
-                    "INSERT INTO detalle_compras (compra_id, producto_id, cantidad, precio_unitario) "
-                    "VALUES (%s, %s, %s, %s)",
-                    (compra_id, item['id'], item['cantidad'], item['precio'])
+                    "INSERT INTO detalle_compras (compra_id, producto_id, cantidad, precio_unitario, imagen_url, descripcion) "
+                    "VALUES (%s, %s, %s, %s, %s, %s)",
+                    (compra_id, item['id'], item['cantidad'], item['precio'], item['imagen_url'], item['descripcion'])
                 )
                 cursor.execute(
                     "UPDATE productos SET inventario = inventario - %s WHERE id = %s",
@@ -155,6 +157,7 @@ def comprar():
         return jsonify({'message': 'Compra realizada'})
     except Exception as e:
         db.rollback()
+        print(f"Error al procesar la compra: {e}")
         return jsonify({'error': 'Error al procesar compra', 'details': str(e)}), 500
 
 # Administración de productos
@@ -218,4 +221,4 @@ def editar_producto(producto_id):
 
 # Ejecutar la app
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=500)
+    app.run(debug=True, host='0.0.0.0', port=5001)

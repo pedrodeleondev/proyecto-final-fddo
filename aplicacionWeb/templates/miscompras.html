@@ -7,30 +7,60 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>🧾 Mis Compras</h1>
-        <div class="top-nav">
-            <a href="{{ url_for('index') }}">← Volver a productos</a>
-            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    <div class="contenedor">
+        <header>
+            <a href="{{ url_for('index') }}" class="nombre">TUNLY</a>
+            <div class="header_opciones">
+                <a href="{{ url_for('carrito') }}"><i i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="{{ url_for('miscompras') }}"><i class="fa-solid fa-receipt"></i></a>
+                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                {% if session.get('es_admin') %}
+                <a href="{{ url_for('admin_productos') }}"> <i class="fa-solid fa-user"></i></a>
+                {% endif %}
+            </div>
+        </header>
+        <div class="cuerpoComp">
+            <div class="cuerpo_opciones">
+                <h1 class="home">MIS COMPRAS</h1>
+            </div>
+            <div class="productosCompras">
+                {% if compras %}
+                    {% for compra in compras %}
+                        <div class="productoCompras">
+                            <h3>Compra #{{ compra.id }} – {{ compra.fecha_compra.strftime('%d/%m/%Y %H:%M') }}</h3>
+                            <ul>
+                                {% for item in compra['items'] %}
+                                    <li class="comprasContenido">
+                                        <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
+                                        <div class="compraContenido">
+                                            <h3>{{ item.nombre }}</h3>
+                                            <h5>{{ item.descripcion }}</h5>
+                                            <p id="opciones">Precio: <strong>${{ item.precio_unitario }}</strong></p>
+                                            <p id="opciones">Cantidad: <strong>{{ item.cantidad }}</strong></p>
+                                            <p id="opciones">Costo final: <strong>${{ item.subtotal}}</strong></p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="centrar">
+                                <p><strong>Total:</strong> ${{ compra.total }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No has realizado compras aún.</p>
+                {% endif %}
+            </div>
         </div>
-
-        {% if compras %}
-            {% for compra in compras %}
-                <div class="compra">
-                    <h3>Compra #{{ compra.id }} – {{ compra.fecha_compra.strftime('%d/%m/%Y %H:%M') }}</h3>
-                    <p><strong>Total:</strong> ${{ compra.total }}</p>
-                    <ul>
-                        {% for item in compra['items'] %}
-                            <li>
-                                {{ item.nombre }} – {{ item.cantidad }} x ${{ item.precio_unitario }} = ${{ item.subtotal }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No has realizado compras aún.</p>
-        {% endif %}
+        <footer>
+            <span class="copyright">© 2025 TUNLY. Todos los derechos reservados</span>
+            <div class="redes">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-x-twitter"></i>
+            </div>
+        </footer>
     </div>
+    <script src="https://kit.fontawesome.com/d351efb335.js" crossorigin="anonymous"></script>
 </body>
 </html>
