@@ -14,16 +14,18 @@ docker-compose version
 
 echo "📦 Clonando el repositorio..."
 cd /home/ec2-user
-git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git || true
+if [ ! -d "proyecto-final-fddo" ]; then
+  git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git
+fi
 cd proyecto-final-fddo/aplicacionWeb
 
-echo "📥 Cargando variables de entorno desde /home/ec2-user/db.env..."
-if [ ! -f /home/ec2-user/db.env ]; then
-  echo "❌ ERROR: El archivo db.env no existe. Sube el archivo desde Cloud9 con los datos de la base de datos."
+echo "📥 Cargando variables de entorno..."
+if [ ! -f "./db.env" ]; then
+  echo "❌ ERROR: No se encontró db.env. Verifica el user_data o crea el archivo antes de continuar."
   exit 1
 fi
 
-source /home/ec2-user/db.env
+source ./db.env
 
 echo "🛠️ Modificando db_config.py..."
 sed -i "s/'host': os.getenv('DB_HOST', 'localhost')/'host': '$DB_HOST'/g" db_config.py
@@ -37,4 +39,3 @@ docker-compose up -d --build
 
 echo ""
 echo "✅ La aplicación está en ejecución."
-echo "🌐 Abre en tu navegador: http://$(curl -s http://checkip.amazonaws.com):5000"
