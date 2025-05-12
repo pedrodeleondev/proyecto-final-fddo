@@ -185,7 +185,7 @@ resource "aws_security_group" "SG-BD" {
 #Instancia Web
 resource "aws_instance" "instancia_WebVirginia" {
   ami = "ami-0f88e80871fd81e91"
-  instance_type = "t2.micro"
+  instance_type = "t2.large"
   subnet_id = aws_subnet.subred_publica_virginia_Web.id
   key_name = "vockey"
   vpc_security_group_ids = [aws_security_group.SG-WebVirginia.id]
