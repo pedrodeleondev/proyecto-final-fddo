@@ -14,16 +14,17 @@ Diagrama generado en Lucid, plataforma que nos facilita el generar diagramas par
 Se manejo un diseño por parte de nuestra integrante Paola Urdiales, en donde nos dio una muestra del diseño que se espera ofrezca nuestra pagina, dando asi diseños para las paginas de Inicio, Compras, Login, Registro y Carrito, pueden ver estos diseños en el siguiente link:
 - [Link de diseños en Figma](https://www.figma.com/design/C5JObP2Vf4ttap1RI5ZaEo/Proyecto-Final_DevOps?node-id=13-201&t=Y6E3B1TAePUo9xeh-1)
 
-
 ## Pasos para instalar nuestro proyecto mediante Cloud9
-Primero que nada, hay que crear un Cloud9 completamente nuevo, que no tenga nada instalado anteriormente. 
+Primero que nada, hay que crear un Cloud9 completamente nuevo, donde únicamente esté instalado Terraform. 
 
 1.- Primero, tienes que abrir el Cloud9 que creaste y en la terminal ingresas el siguiente comando "_**git clone https://github.com/pedrodeleondev/proyecto-final-fddo**_".
 
-2.- Posteriormente hay que dirigirse a la carpeta con el comando "_**cd proyecto-final-fddo**_".
+2.- Posteriormente hay que dirigirse a la carpeta con el comando "_**cd proyecto-final-fddo**_", para despues ingresar el comando "_**cd infraestructuraTF-AWS**_".
 
-3.- Ejecutas el comando "_**chmod +x cloud9-setup.sh**_", para darle permisos al archivo "_**cloud9-setup.sh**_".
+3.- Debes ejecutar la secuencia de codigos: "_**terraform init - terraform plan - terraform apply**_".
 
-4.- Por último, debes ejecutar el archivo "_**cloud9-setup.sh**_" con el comando "_**./cloud9-setup.sh**_".
+4.- Cuando la infraestructura esté lista, te debes conectar a la instancia creada, para volver a clonar el repositorio y entras de nuevo a la carpeta del repositorio.
 
-Con este setup automáticamente se instalará Terraform y toda la infraestructura en AWS.
+5.- Por último, ejecutas el comando "_**chmod +x ec2-setup.sh**_" y posteriormente ejecutas el comando "_**./ec2-setup.sh**_".
+
+6.- Ya está todo trabajando de manera correcta, para entrar a la página debes poner en el navegador: ip_de_la_instancia:5000.
