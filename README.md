@@ -22,8 +22,8 @@ Primero que nada, hay que crear un Cloud9 completamente nuevo, que no tenga nada
 
 2.- Posteriormente hay que dirigirse a la carpeta con el comando "_**cd proyecto-final-fddo**_".
 
-3.- Ejecutas el comando "_**chmod +x setup.sh**_", para darle permisos al archivo "_**setup.sh**_".
+3.- Ejecutas el comando "_**chmod +x cloud9-setup.sh**_", para darle permisos al archivo "_**cloud9-setup.sh**_".
 
-4.- Por último, debes ejecutar el archivo "_**setup.sh**_" con el comando "_**./setup.sh**_".
+4.- Por último, debes ejecutar el archivo "_**cloud9-setup.sh**_" con el comando "_**./cloud9-setup.sh**_".
 
 Solo hará falta verificar cual es la IP pública de la instancia que se creo para entrar en la página web. De esta manera se habra instalado Terraform y Docker de manera automática.
