@@ -5,10 +5,10 @@ set -e
 BASE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$BASE_DIR"
 
-echo "🔧 Instalando Terraform 0.15.1 en /tmp..."
+echo "🔧 Instalando Terraform 1.6.6 en /tmp..."
 cd /tmp
-wget -q https://releases.hashicorp.com/terraform/0.15.1/terraform_0.15.1_linux_amd64.zip
-unzip -o terraform_0.15.1_linux_amd64.zip
+wget -q https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+unzip -o terraform_1.6.6_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 terraform -version || { echo "❌ Terraform no se instaló correctamente."; exit 1; }
 
@@ -20,6 +20,7 @@ if [ ! -d "./infraestructuraTF-AWS" ]; then
   exit 1
 fi
 
+echo "🚀 Ejecutando Terraform en infraestructuraTF-AWS..."
 cd infraestructuraTF-AWS
 
 echo "🧹 Limpiando estado anterior de Terraform..."
@@ -28,12 +29,13 @@ rm -rf .terraform .terraform.lock.hcl
 echo "🚀 Inicializando Terraform..."
 terraform init -input=false
 
-echo "📐 Planificando infraestructura..."
+echo "📋 Planeando infraestructura..."
 terraform plan -input=false -out=tfplan
 
-echo "⚙️ Aplicando infraestructura..."
+echo "🏗️ Aplicando infraestructura..."
 terraform apply -auto-approve tfplan
 
+echo "🧹 Limpiando archivos temporales..."
 rm -rf .terraform tfplan
 
 echo "✅ Infraestructura creada con éxito."
