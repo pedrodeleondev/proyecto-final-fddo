@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "igw-virginia" {
 
 #Elastic IP para NAT Gateway
 resource "aws_eip" "nat_eip" {
-  vpc = true
+  domain = "vpc"
   tags = {
     Name = "Elastic IP para NAT Gateway"
   }
@@ -29,7 +29,7 @@ resource "aws_eip" "nat_eip" {
 
 # Elastic IP para Web
 resource "aws_eip" "eip_web" {
-  vpc = true
+  domain = "vpc"
   tags = {
     Name = "Elastic IP para Instancia Web"
   }
@@ -193,6 +193,27 @@ resource "aws_instance" "instancia_WebVirginia" {
   tags = {
     Name = "Linux Web - Proyecto"
   }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y docker git
+              service docker start
+              usermod -a -G docker ec2-user
+              curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              chmod +x /usr/local/bin/docker-compose
+
+              cd /home/ec2-user
+              git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git
+              cd proyecto-final-fddo/aplicacionWeb
+
+              echo "DB_HOST=${replace(aws_db_instance.BD_MySQL.endpoint, ":3306", "")}" > db.env
+              echo "DB_USER=admin" >> db.env
+              echo "DB_PASSWORD=proyecto98765" >> db.env
+              echo "DB_NAME=proyecto_db" >> db.env
+
+              docker-compose up -d --build
+              EOF
 }
 
 #Base de Datos
