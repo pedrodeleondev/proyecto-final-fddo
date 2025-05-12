@@ -12,6 +12,7 @@ sudo yum install git -y
 echo "Instalando Python y pip..."
 sudo yum install python3 -y
 sudo pip3 install --upgrade pip
+python3 -m pip install --upgrade --user pip
 
 echo "Instalando Docker..."
 sudo yum install docker -y
@@ -25,7 +26,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 echo "Clonando el repositorio..."
 cd /home/ec2-user
-git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git
 cd proyecto-final-fddo/aplicacionWeb
 
 echo "Levantando contenedores con Docker Compose..."
