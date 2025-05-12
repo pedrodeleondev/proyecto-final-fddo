@@ -4,7 +4,7 @@ set -e
 
 echo "🐳 Instalando Docker..."
 sudo yum install -y docker
-sudo service docker start
+sudo systemctl start docker
 sudo usermod -a -G docker ec2-user
 
 echo "🔧 Instalando Docker Compose..."
@@ -14,17 +14,18 @@ docker-compose version
 
 echo "📦 Clonando el repositorio..."
 cd /home/ec2-user
-git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git
-
+git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git || true
 cd proyecto-final-fddo/aplicacionWeb
 
-echo "🛠️ Modificando db_config.py..."
-# Asegúrate de reemplazar los valores de abajo con los que imprimió el script anterior
-DB_HOST="<RDS_ENDPOINT>"
-DB_USER="admin"
-DB_PASSWORD="proyecto98765"
-DB_NAME="proyecto_db"
+echo "📥 Cargando variables de entorno desde /home/ec2-user/db.env..."
+if [ ! -f /home/ec2-user/db.env ]; then
+  echo "❌ ERROR: El archivo db.env no existe. Sube el archivo desde Cloud9 con los datos de la base de datos."
+  exit 1
+fi
 
+source /home/ec2-user/db.env
+
+echo "🛠️ Modificando db_config.py..."
 sed -i "s/'host': os.getenv('DB_HOST', 'localhost')/'host': '$DB_HOST'/g" db_config.py
 sed -i "s/'user': os.getenv('DB_USER', 'root')/'user': '$DB_USER'/g" db_config.py
 sed -i "s/'password': os.getenv('DB_PASSWORD', '')/'password': '$DB_PASSWORD'/g" db_config.py
