@@ -24,7 +24,7 @@ echo "🚀 Ejecutando Terraform en infraestructuraTF-AWS..."
 cd infraestructuraTF-AWS
 
 echo "🧹 Limpiando estado anterior de Terraform..."
-rm -rf .terraform .terraform.lock.hcl
+rm -rf .terraform
 
 echo "🚀 Inicializando Terraform..."
 terraform init -input=false
@@ -34,11 +34,6 @@ terraform plan -input=false -out=tfplan
 
 echo "🏗️ Aplicando infraestructura..."
 terraform apply -auto-approve tfplan
-
-echo "🧹 Limpiando archivos temporales..."
-rm -rf .terraform tfplan
-
-echo "✅ Infraestructura creada con éxito."
 
 echo ""
 echo "📤 Extrayendo datos de RDS..."
@@ -58,6 +53,10 @@ echo "HOST: $DB_HOST"
 echo "USER: $DB_USER"
 echo "DB:   $DB_NAME"
 echo "PASS: $DB_PASSWORD"
+
+echo ""
+echo "🧹 Limpiando archivos temporales..."
+rm -rf .terraform tfplan
 
 echo ""
 echo "✅ Todo listo. La instancia EC2 se encargará del resto automáticamente."
