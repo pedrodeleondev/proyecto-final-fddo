@@ -5,12 +5,14 @@ set -e
 echo "🐳 Instalando Docker..."
 sudo yum install -y docker
 sudo systemctl start docker
+sudo systemctl enable docker
 sudo usermod -a -G docker ec2-user
 
 echo "🔧 Instalando Docker Compose..."
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+DOCKER_COMPOSE_VERSION="v2.20.2"
+sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-docker-compose version
+docker-compose version || { echo "❌ Docker Compose no se instaló correctamente."; exit 1; }
 
 echo "📦 Clonando el repositorio..."
 cd /home/ec2-user
@@ -19,23 +21,23 @@ if [ ! -d "proyecto-final-fddo" ]; then
 fi
 cd proyecto-final-fddo/aplicacionWeb
 
-echo "📥 Cargando variables de entorno..."
+echo "📥 Verificando archivo db.env..."
 if [ ! -f "./db.env" ]; then
-  echo "❌ ERROR: No se encontró db.env. Verifica el user_data o crea el archivo antes de continuar."
+  echo "❌ ERROR: No se encontró db.env. Verifica el script user_data o crea el archivo manualmente."
   exit 1
 fi
 
-source ./db.env
+# Mostrar contenido para depuración (puedes comentarlo si es sensible)
+echo "🔐 Variables de entorno cargadas:"
+cat db.env
 
-echo "🛠️ Modificando db_config.py..."
-sed -i "s/'host': os.getenv('DB_HOST', 'localhost')/'host': '$DB_HOST'/g" db_config.py
-sed -i "s/'user': os.getenv('DB_USER', 'root')/'user': '$DB_USER'/g" db_config.py
-sed -i "s/'password': os.getenv('DB_PASSWORD', '')/'password': '$DB_PASSWORD'/g" db_config.py
-sed -i "s/'db': os.getenv('DB_NAME', 'tienda_audifonos')/'db': '$DB_NAME'/g" db_config.py
+echo "📁 Comprobando existencia de archivos requeridos..."
+[ -f docker-compose.yml ] || { echo "❌ docker-compose.yml no encontrado."; exit 1; }
+[ -f app.py ] || { echo "❌ app.py no encontrado."; exit 1; }
 
 echo "🐋 Ejecutando Docker Compose..."
 docker-compose down --volumes --remove-orphans || true
 docker-compose up -d --build
 
 echo ""
-echo "✅ La aplicación está en ejecución."
+echo "✅ La aplicación está en ejecución. Verifica el servicio en http://<tu-ip>:5000"
