@@ -1,13 +1,18 @@
 #!/bin/bash
 
-set -e  # Detener si ocurre un error
+set -e
 
-# Determinar la carpeta actual del script
 BASE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$BASE_DIR"
 
-echo "🔧 Instalando Terraform en /tmp..."
+echo "🧹 Limpiando espacio en Cloud9..."
+sudo service docker stop || true
+sudo rm -rf /var/lib/docker || true
+rm -rf /tmp/* ~/.cache/* ~/.npm ~/.terraform.d ~/.local/share/Trash
+sudo rm -rf /usr/share/doc/*
+df -h
 
+echo "🔧 Instalando Terraform en /tmp..."
 cd /tmp
 wget -q https://releases.hashicorp.com/terraform/0.15.1/terraform_0.15.1_linux_amd64.zip
 unzip -o terraform_0.15.1_linux_amd64.zip
@@ -25,23 +30,16 @@ cd infraestructuraTF-AWS
 terraform init -input=false
 terraform plan -input=false -out=tfplan
 terraform apply -auto-approve tfplan
+rm -rf .terraform tfplan
 
-# Extraer datos reales de RDS
 echo "🔍 Extrayendo datos de la base de datos..."
 DB_HOST=$(terraform output -raw rds_endpoint | cut -d':' -f1)
 DB_USER=$(terraform output -raw rds_username)
 DB_NAME=$(terraform output -raw rds_database_name)
-DB_PASSWORD="proyecto98765"  # Este valor lo definiste tú en main.tf
+DB_PASSWORD="proyecto98765"
 
-echo "🔧 Datos extraídos:"
-echo "Host: $DB_HOST"
-echo "Usuario: $DB_USER"
-echo "Base de datos: $DB_NAME"
-
-# Modificar db_config.py en la app
+echo "🛠️ Modificando db_config.py..."
 cd "$BASE_DIR/proyecto-final-fddo/aplicacionWeb"
-
-echo "🛠️ Modificando db_config.py con los datos de RDS..."
 sed -i "s/'host': os.getenv('DB_HOST', 'localhost')/'host': '$DB_HOST'/g" db_config.py
 sed -i "s/'user': os.getenv('DB_USER', 'root')/'user': '$DB_USER'/g" db_config.py
 sed -i "s/'password': os.getenv('DB_PASSWORD', '')/'password': '$DB_PASSWORD'/g" db_config.py
@@ -57,11 +55,12 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose version
 
-sleep 5
+sleep 3
 
-echo "🐋 Ejecutando Docker Compose..."
+echo "🐋 Ejecutando Docker Compose (modo limpio)..."
+docker-compose down --volumes --remove-orphans || true
 docker-compose up -d --build
 
 echo ""
 echo "✅ La aplicación está en ejecución."
-echo "🌐 Accede desde tu navegador a: http://$(curl -s http://checkip.amazonaws.com):5000"
+echo "🌐 Abre: http://$(curl -s http://checkip.amazonaws.com):5000"
