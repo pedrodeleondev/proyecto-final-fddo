@@ -1,14 +1,19 @@
-FROM python:3.10
+FROM python:3.10-slim
 
-# Crear carpeta y copiar archivos
+# Establecer directorio de trabajo
 WORKDIR /app
-COPY . /app
 
-# Instalar dependencias
+# Copiar archivos necesarios
+COPY requirements.txt .
+
+# Instalar dependencias primero (cache mejor)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponer el puerto
+# Luego copiar el resto del proyecto
+COPY . .
+
+# Exponer el puerto que usa Flask
 EXPOSE 5000
 
-# Ejecutar la app
+# Comando por defecto para ejecutar la app
 CMD ["python", "app.py"]
