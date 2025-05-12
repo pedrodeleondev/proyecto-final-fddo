@@ -127,7 +127,7 @@ resource "aws_route_table_association" "privada_virginia_BD2" {
   route_table_id = aws_route_table.tabla_rutas_privadas.id
 }
 
-# Security Groups
+# Security Group Web
 resource "aws_security_group" "SG-WebVirginia" {
   vpc_id = aws_vpc.vpc_virginia.id
   name   = "SG-Proyecto-Web"
@@ -168,6 +168,7 @@ resource "aws_security_group" "SG-WebVirginia" {
   }
 }
 
+# Security Group Base de Datos - CORREGIDO
 resource "aws_security_group" "SG-BD" {
   vpc_id = aws_vpc.vpc_virginia.id
   name   = "SG-BaseDeDatos"
