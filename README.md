@@ -20,9 +20,9 @@ Primero que nada, hay que crear un Cloud9 completamente nuevo, que no tenga nada
 
 1.- Primero, tienes que abrir el Cloud9 que creasye y en la terminal ingresas el siguiente comando "_**git clone https://github.com/pedrodeleondev/proyecto-final-fddo**_".
 
-2.-Posteriormente hay que dirigirse a la carpeta con el comando "_**cd proyecto-final-fddo**_".
+2.- Posteriormente hay que dirigirse a la carpeta con el comando "_**cd proyecto-final-fddo**_".
 
-3.-Ejecutas el comando "_**chmod +x setup.sh**_", para darle permisos al archivo "_**setup.sh**_".
+3.- Ejecutas el comando "_**chmod +x setup.sh**_", para darle permisos al archivo "_**setup.sh**_".
 
 4.- Por último, debes ejecutar el archivo "_**setup.sh**_" con el comando "_**./setup.sh**_".
 
