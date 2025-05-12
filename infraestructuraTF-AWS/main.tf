@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# VPC Proyecto Final
+# VPC
 resource "aws_vpc" "vpc_virginia" {
   cidr_block = "10.0.0.0/16"
   tags = {
@@ -127,7 +127,7 @@ resource "aws_route_table_association" "privada_virginia_BD2" {
   route_table_id = aws_route_table.tabla_rutas_privadas.id
 }
 
-# Security Groups
+# Security Group Web
 resource "aws_security_group" "SG-WebVirginia" {
   vpc_id = aws_vpc.vpc_virginia.id
   name   = "SG-Proyecto-Web"
@@ -168,15 +168,16 @@ resource "aws_security_group" "SG-WebVirginia" {
   }
 }
 
+# Security Group Base de Datos - CORREGIDO
 resource "aws_security_group" "SG-BD" {
   vpc_id = aws_vpc.vpc_virginia.id
   name   = "SG-BaseDeDatos"
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = [format("%s/32", aws_instance.instancia_WebVirginia.private_ip)]
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.SG-WebVirginia.id]
   }
 
   egress {
@@ -184,6 +185,10 @@ resource "aws_security_group" "SG-BD" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "SG Base de Datos - Proyecto"
   }
 }
 
@@ -203,38 +208,30 @@ resource "aws_instance" "instancia_WebVirginia" {
   user_data = <<-EOF
               #!/bin/bash
               set -e
-
               echo "🟡 Iniciando configuración de instancia EC2..." >> /var/log/userdata.log
-
               yum update -y >> /var/log/userdata.log
               yum install -y docker git >> /var/log/userdata.log
               service docker start
               systemctl enable docker
               usermod -a -G docker ec2-user
-
               curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
               chmod +x /usr/local/bin/docker-compose
-
               cd /home/ec2-user
               if [ ! -d "proyecto-final-fddo" ]; then
                 git clone https://github.com/pedrodeleondev/proyecto-final-fddo.git >> /var/log/userdata.log
               fi
-
               cd proyecto-final-fddo/aplicacionWeb
-
               echo "DB_HOST=${replace(aws_db_instance.BD_MySQL.endpoint, ":3306", "")}" > db.env
               echo "DB_USER=admin" >> db.env
               echo "DB_PASSWORD=proyecto98765" >> db.env
               echo "DB_NAME=proyecto_db" >> db.env
-
               docker-compose down --volumes --remove-orphans || true
               docker-compose up -d --build >> /var/log/userdata.log
-
               echo "✅ Aplicación desplegada correctamente." >> /var/log/userdata.log
               EOF
 }
 
-# Base de Datos
+# Base de Datos RDS
 resource "aws_db_instance" "BD_MySQL" {
   identifier               = "bd-proyect-mysql"
   engine                   = "mysql"
