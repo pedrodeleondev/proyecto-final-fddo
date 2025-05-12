@@ -5,16 +5,6 @@ set -e
 BASE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$BASE_DIR"
 
-echo "🧹 Limpiando espacio en Cloud9..."
-sudo service docker stop || true
-sudo rm -rf /var/lib/docker || true
-
-# Solo borra lo que se puede en /tmp (sin tocar carpetas privadas del sistema)
-find /tmp -maxdepth 1 ! -name 'systemd-private-*' ! -path /tmp -exec rm -rf {} +
-rm -rf ~/.cache/* ~/.npm ~/.terraform.d ~/.local/share/Trash
-sudo rm -rf /usr/share/doc/*
-df -h
-
 echo "🔧 Instalando Terraform en /tmp..."
 cd /tmp
 wget -q https://releases.hashicorp.com/terraform/0.15.1/terraform_0.15.1_linux_amd64.zip
