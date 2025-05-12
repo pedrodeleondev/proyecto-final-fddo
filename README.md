@@ -23,7 +23,8 @@ Primero que nada, hay que crear un Cloud9 completamente nuevo, donde únicamente
 
 3.- Debes ejecutar la secuencia de codigos: "_**terraform init - terraform plan - terraform apply**_".
 
-4.- Cuando la infraestructura esté lista, te debes conectar a la instancia creada, para volver a clonar el repositorio y entras de nuevo a la carpeta del repositorio, una vez dentro te debes dirigir a la carpeta _**aplicacionWeb**_.
+
+4.- Cuando la infraestructura esté lista, te debes conectar a la instancia creada, para volver a clonar el repositorio hay que instalar git con el comando _*sudo yum install -y git*_, clonas el repositorio y entras de nuevo a la carpeta del repositorio, una vez dentro te debes dirigir a la carpeta _**aplicacionWeb**_.
 
 5.- Por último, ejecutas el comando "_**chmod +x setup.sh**_" y posteriormente ejecutas el comando "_**./setup.sh**_".
 
